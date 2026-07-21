@@ -14,30 +14,30 @@ export default function Footer() {
         </Link>
 
         <div className="flex flex-col gap-3 text-sm font-medium text-slate-600 sm:flex-row sm:items-center sm:justify-end sm:gap-7">
-          <a
-            href="#services"
+          <Link
+            href="/#services"
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
             Servicii
-          </a>
+          </Link>
 
-          <a
-            href="#process"
+          <Link
+            href="/#process"
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
             Procesul nostru
-          </a>
+          </Link>
 
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
             Contact
-          </a>
+          </Link>
 
           <a
             href="mailto:contact@venturas.ro"
-            className="ml-2 transition-colors duration-200 hover:text-[#F05B25]"
+            className="sm:ml-2 transition-colors duration-200 hover:text-[#F05B25]"
           >
             contact@venturas.ro
           </a>
@@ -47,7 +47,12 @@ export default function Footer() {
       <div className="mx-auto mt-6 flex max-w-7xl flex-col gap-2 border-t border-slate-200 pt-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
         <p>© {currentYear} Venturas SRL</p>
 
-        <p>venturas.ro</p>
+        <Link
+          href="/"
+          className="transition-colors duration-200 hover:text-[#F05B25]"
+        >
+          venturas.ro
+        </Link>
       </div>
     </footer>
   );
