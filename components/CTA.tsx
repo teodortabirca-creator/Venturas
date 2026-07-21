@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Check } from "lucide-react";
 
 export default function CTA() {
@@ -7,9 +8,9 @@ export default function CTA() {
       className="scroll-mt-20 bg-[#00563A] px-6 py-20 lg:px-10 lg:py-24"
     >
       <div
-  data-hide-navbar-cta
-  className="mx-auto max-w-5xl rounded-[2rem] bg-white px-7 py-14 text-center shadow-[0_30px_80px_rgba(0,0,0,0.14)] sm:px-10 lg:px-20 lg:py-20"
->
+        data-hide-navbar-cta
+        className="mx-auto max-w-5xl rounded-[2rem] bg-white px-7 py-14 text-center shadow-[0_30px_80px_rgba(0,0,0,0.14)] sm:px-10 lg:px-20 lg:py-20"
+      >
         <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#F05B25]">
           Programează o discuție
         </p>
@@ -53,14 +54,12 @@ export default function CTA() {
           </span>
         </div>
 
-        <a
-          href="https://calendly.com/"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/contact"
           className="mt-11 inline-flex items-center justify-center rounded-xl bg-[#F05B25] px-8 py-4 text-base font-semibold text-white shadow-[0_14px_35px_rgba(240,91,37,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D94F1C] hover:shadow-[0_18px_40px_rgba(240,91,37,0.32)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F05B25] focus-visible:ring-offset-2"
         >
           Programează o discuție
-        </a>
+        </Link>
       </div>
     </section>
   );
