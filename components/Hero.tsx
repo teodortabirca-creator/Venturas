@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="bg-white px-6 pt-20 pb-20 lg:px-10 lg:pt-28 lg:pb-28">
+    <section className="bg-[#FFF4EE] px-6 pt-20 pb-20 lg:px-10 lg:pt-28 lg:pb-28">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#F05B25]">
