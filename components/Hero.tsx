@@ -10,7 +10,7 @@ export default function Hero() {
           </p>
 
           <h1 className="mt-5 text-5xl font-extrabold leading-[1.03] tracking-[-0.05em] text-[#1F0B05] sm:text-6xl lg:text-7xl">
-            Generăm conversații comerciale cu companiile potrivite.
+            Transformăm prospectarea B2B în oportunități comerciale.
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
