@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { BriefcaseBusiness, Mail, MapPin, Phone } from "lucide-react";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -18,7 +19,7 @@ const contactDetails = [
     href: "tel:+40726125032",
   },
   {
-    icon: BriefcaseBusiness,
+    icon: FaLinkedinIn,
     value: "Venturas",
     href: "https://www.linkedin.com/company/127213952",
   },
@@ -304,7 +305,7 @@ export default function Contact() {
                       className="group flex flex-col items-center text-center transition"
                     >
                       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF4EE] text-[#F05B25] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#F05B25] group-hover:text-white">
-                        <Icon size={24} strokeWidth={2} />
+                        <Icon size={24} />
                       </div>
 
                       <p className="mt-5 font-semibold text-[#16221D]">
