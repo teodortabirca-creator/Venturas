@@ -105,7 +105,7 @@ export default function DespreNoi() {
           </div>
         </section>
 
-        <section className="bg-white px-6 py-20 lg:px-10 lg:py-28">
+        <section className="bg-[#FFF4EE] px-6 py-20 lg:px-10 lg:py-28">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
               <div>
