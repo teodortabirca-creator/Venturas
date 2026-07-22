@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import Head from "next/head";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: any) {
   return (
@@ -67,7 +68,25 @@ export default function App({ Component, pageProps }: any) {
           rel="stylesheet"
         />
       </Head>
+<Script
+  src="https://www.googletagmanager.com/gtag/js?id=G-75MQ4JGXBP"
+  strategy="afterInteractive"
+/>
 
+<Script id="google-analytics" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-75MQ4JGXBP', {
+  page_path: window.location.pathname,
+});
+  `}
+</Script>
       <Component {...pageProps} />
     </>
   );
