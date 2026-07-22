@@ -21,6 +21,9 @@ export default function App({ Component, pageProps }: any) {
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        {/* Canonical */}
+        <link rel="canonical" href="https://venturas.ro" />
+
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
 
@@ -28,41 +31,61 @@ export default function App({ Component, pageProps }: any) {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Venturas" />
         <meta property="og:url" content="https://venturas.ro" />
+
         <meta
           property="og:title"
           content="Venturas | Prospectare B2B și Lead Generation"
         />
+
         <meta
           property="og:description"
           content="Transformăm prospectarea B2B în oportunități comerciale prin lead generation, outreach și programarea întâlnirilor cu decidenți."
         />
+
         <meta
           property="og:image"
           content="https://venturas.ro/og-image.png"
         />
 
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Venturas — Transformăm prospectarea B2B în oportunități comerciale"
+        />
+
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
+
         <meta
           name="twitter:title"
           content="Venturas | Prospectare B2B și Lead Generation"
         />
+
         <meta
           name="twitter:description"
           content="Transformăm prospectarea B2B în oportunități comerciale prin lead generation, outreach și programarea întâlnirilor cu decidenți."
         />
+
         <meta
           name="twitter:image"
           content="https://venturas.ro/og-image.png"
         />
 
+        <meta
+          name="twitter:image:alt"
+          content="Venturas — Transformăm prospectarea B2B în oportunități comerciale"
+        />
+
         {/* Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
@@ -80,25 +103,24 @@ export default function App({ Component, pageProps }: any) {
                   "@id": "https://venturas.ro/#organization",
                   name: "Venturas",
                   url: "https://venturas.ro",
-                  logo: "https://venturas.ro/venturas-logo.svg",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://venturas.ro/og-image.png",
+                  },
                   description:
-                    "Venturas ajută companiile să genereze oportunități comerciale prin prospectare B2B, lead generation și outreach.",
+                    "Venturas ajută companiile să genereze oportunități comerciale prin prospectare B2B, lead generation și appointment setting.",
                 },
                 {
                   "@type": "ProfessionalService",
-                  "@id": "https://venturas.ro/#service",
+                  "@id": "https://venturas.ro/#professional-service",
                   name: "Venturas",
                   url: "https://venturas.ro",
-                  provider: {
-                    "@id": "https://venturas.ro/#organization",
+                  description:
+                    "Servicii de prospectare B2B, lead generation, outreach și programarea întâlnirilor cu decidenți.",
+                  areaServed: {
+                    "@type": "Country",
+                    name: "România",
                   },
-                  areaServed: "Romania",
-                  serviceType: [
-                    "Lead Generation",
-                    "B2B Prospecting",
-                    "Appointment Setting",
-                    "Outbound Sales",
-                  ],
                 },
                 {
                   "@type": "WebSite",
@@ -108,6 +130,7 @@ export default function App({ Component, pageProps }: any) {
                   publisher: {
                     "@id": "https://venturas.ro/#organization",
                   },
+                  inLanguage: "ro-RO",
                 },
               ],
             }),
@@ -115,6 +138,7 @@ export default function App({ Component, pageProps }: any) {
         />
       </Head>
 
+      {/* Google Analytics */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-75MQ4JGXBP"
         strategy="afterInteractive"
