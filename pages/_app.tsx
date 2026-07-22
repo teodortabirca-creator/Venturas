@@ -67,26 +67,75 @@ export default function App({ Component, pageProps }: any) {
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://venturas.ro/#organization",
+                  name: "Venturas",
+                  url: "https://venturas.ro",
+                  logo: "https://venturas.ro/venturas-logo.svg",
+                  description:
+                    "Venturas ajută companiile să genereze oportunități comerciale prin prospectare B2B, lead generation și outreach.",
+                },
+                {
+                  "@type": "ProfessionalService",
+                  "@id": "https://venturas.ro/#service",
+                  name: "Venturas",
+                  url: "https://venturas.ro",
+                  provider: {
+                    "@id": "https://venturas.ro/#organization",
+                  },
+                  areaServed: "Romania",
+                  serviceType: [
+                    "Lead Generation",
+                    "B2B Prospecting",
+                    "Appointment Setting",
+                    "Outbound Sales",
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://venturas.ro/#website",
+                  url: "https://venturas.ro",
+                  name: "Venturas",
+                  publisher: {
+                    "@id": "https://venturas.ro/#organization",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </Head>
-<Script
-  src="https://www.googletagmanager.com/gtag/js?id=G-75MQ4JGXBP"
-  strategy="afterInteractive"
-/>
 
-<Script id="google-analytics" strategy="afterInteractive">
-  {`
-    window.dataLayer = window.dataLayer || [];
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-75MQ4JGXBP"
+        strategy="afterInteractive"
+      />
 
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
 
-    gtag('js', new Date());
-    gtag('config', 'G-75MQ4JGXBP', {
-  page_path: window.location.pathname,
-});
-  `}
-</Script>
+          function gtag() {
+            window.dataLayer.push(arguments);
+          }
+
+          gtag('js', new Date());
+
+          gtag('config', 'G-75MQ4JGXBP', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
+
       <Component {...pageProps} />
     </>
   );
