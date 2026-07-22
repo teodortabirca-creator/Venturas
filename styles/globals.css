@@ -22,23 +22,13 @@ html,
 body {
   margin: 0;
   min-height: 100%;
+  background: #fff4ee;
   color: var(--dark);
   font-family: "Montserrat", sans-serif;
-  background: linear-gradient(
-    180deg,
-    #fffaf7 0%,
-    #fff4ee 30%,
-    #fff2eb 100%
-  );
 }
 
 body {
   overflow-x: hidden;
-}
-
-main,
-section {
-  background: transparent;
 }
 
 img,
