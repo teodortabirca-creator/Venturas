@@ -4,20 +4,48 @@
   --tangerine: #f05b25;
   --evergreen: #00563a;
   --cream: #fff7f2;
-  --dark: #1f0b05;
+  --dark: #16221d;
   --white: #ffffff;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   margin: 0;
-  background: #fff4ee;
-  color: #16221d;
+  min-height: 100%;
+  color: var(--dark);
   font-family: "Montserrat", sans-serif;
+  background: linear-gradient(
+    180deg,
+    #fffaf7 0%,
+    #fff4ee 30%,
+    #fff2eb 100%
+  );
+}
+
+body {
+  overflow-x: hidden;
+}
+
+main,
+section {
+  background: transparent;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
 a {
@@ -25,6 +53,9 @@ a {
   text-decoration: none;
 }
 
-button {
-  font-family: inherit;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }

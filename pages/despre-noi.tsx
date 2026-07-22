@@ -12,9 +12,11 @@ import {
   Users,
   UsersRound,
 } from "lucide-react";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import TrustedBy from "../components/TrustedBy";
+
 export default function DespreNoi() {
   const capabilities = [
     {
@@ -65,6 +67,7 @@ export default function DespreNoi() {
     <>
       <Head>
         <title>Despre noi | Venturas</title>
+
         <meta
           name="description"
           content="Află mai multe despre Venturas, agenția de prospectare B2B și outbound orientată spre conversații comerciale relevante."
@@ -73,19 +76,10 @@ export default function DespreNoi() {
 
       <Navbar />
 
-      <main>
-        <section className="relative overflow-hidden bg-[#FFF9F5] px-6 py-24 lg:px-10 lg:py-32">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,86,58,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,86,58,0.04)_1px,transparent_1px)] bg-[size:64px_64px]"
-          />
-
-          <div
-            aria-hidden="true"
-            className="absolute -right-32 top-20 h-96 w-96 rounded-full bg-[#F05B25]/10 blur-3xl"
-          />
-
-          <div className="relative mx-auto max-w-7xl">
+      <main className="bg-[#FFF4EE]">
+        {/* Hero */}
+        <section className="relative overflow-hidden bg-[#FFF4EE] px-6 py-24 lg:px-10 lg:py-32">
+          <div className="mx-auto max-w-7xl">
             <div className="max-w-4xl">
               <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#F05B25]">
                 Despre Venturas
@@ -105,6 +99,7 @@ export default function DespreNoi() {
           </div>
         </section>
 
+        {/* De ce existăm */}
         <section className="bg-[#FFF4EE] px-6 py-20 lg:px-10 lg:py-28">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
@@ -169,6 +164,7 @@ export default function DespreNoi() {
           </div>
         </section>
 
+        {/* Secțiunea verde */}
         <section className="bg-[#00563A] px-6 py-20 text-white lg:px-10 lg:py-28">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:gap-20">
@@ -215,10 +211,11 @@ export default function DespreNoi() {
           </div>
         </section>
 
+        {/* CTA */}
         <section
-  data-hide-navbar-cta
-  className="bg-[#FFF9F5] px-6 py-20 lg:px-10 lg:py-24"
->
+          data-hide-navbar-cta
+          className="bg-[#FFF4EE] px-6 py-20 lg:px-10 lg:py-24"
+        >
           <div className="mx-auto max-w-7xl">
             <div className="relative overflow-hidden rounded-[2rem] bg-[#16221D] px-8 py-12 text-white sm:px-12 lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-16 lg:py-14">
               <div
@@ -252,9 +249,9 @@ export default function DespreNoi() {
           </div>
         </section>
 
-        <TrustedBy />
-
-        <section className="bg-[#FFF9F5] px-6 py-20 lg:px-10 lg:py-24"></section>
+        <div className="bg-[#FFF4EE]">
+          <TrustedBy />
+        </div>
       </main>
 
       <Footer />
