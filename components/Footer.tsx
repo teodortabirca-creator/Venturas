@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 
 export default function Footer() {
@@ -37,22 +38,38 @@ export default function Footer() {
 
           <a
             href="mailto:contact@venturas.ro"
-            className="sm:ml-2 transition-colors duration-200 hover:text-[#F05B25]"
+            className="transition-colors duration-200 hover:text-[#F05B25] sm:ml-2"
           >
             contact@venturas.ro
           </a>
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-7xl flex-col gap-2 border-t border-slate-200 pt-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto mt-6 flex max-w-7xl flex-col gap-4 border-t border-slate-200 pt-5 text-xs text-slate-400 md:flex-row md:items-center md:justify-between">
         <p>© {currentYear} Venturas SRL</p>
 
-        <Link
-          href="/"
-          className="transition-colors duration-200 hover:text-[#F05B25]"
-        >
-          venturas.ro
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <Link
+            href="/politica-de-confidentialitate"
+            className="transition-colors duration-200 hover:text-[#F05B25]"
+          >
+            Politica de confidențialitate
+          </Link>
+
+          <Link
+            href="/termeni-si-conditii"
+            className="transition-colors duration-200 hover:text-[#F05B25]"
+          >
+            Termeni și condiții
+          </Link>
+
+          <Link
+            href="/"
+            className="transition-colors duration-200 hover:text-[#F05B25]"
+          >
+            venturas.ro
+          </Link>
+        </div>
       </div>
     </footer>
   );

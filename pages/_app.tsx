@@ -1,13 +1,68 @@
 
 import "../styles/globals.css";
 import Head from "next/head";
-import Script from "next/script";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import type { AppProps } from "next/app";
+import CookieConsent from "../components/CookieConsent";
 
 const SITE_URL = "https://venturas.ro";
+const GA_ID = "G-75MQ4JGXBP";
+const CONSENT_KEY = "venturas_cookie_consent";
 
-export default function App({ Component, pageProps }: any) {
+declare global {
+  interface Window {
+    dataLayer?: IArguments[];
+    gtag?: (...args: any[]) => void;
+    [key: string]: any;
+  }
+}
+
+function deleteAnalyticsCookies() {
+  const cookieNames = document.cookie
+    .split(";")
+    .map((cookie) => cookie.trim().split("=")[0])
+    .filter(
+      (name) =>
+        name === "_ga" ||
+        name.startsWith("_ga_") ||
+        name === "_gid" ||
+        name === "_gat" ||
+        name.startsWith("_gat_")
+    );
+
+  const hostname = window.location.hostname;
+
+  const domains = [
+    "",
+    hostname,
+    `.${hostname}`,
+    ".venturas.ro",
+    "venturas.ro",
+  ];
+
+  const paths = ["/"];
+
+  cookieNames.forEach((name) => {
+    domains.forEach((domain) => {
+      paths.forEach((path) => {
+        document.cookie =
+          `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; ` +
+          `path=${path}; SameSite=Lax` +
+          (domain ? `; domain=${domain}` : "");
+      });
+    });
+  });
+}
+
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
+  const [analyticsReady, setAnalyticsReady] = useState(false);
+
+  const scriptPromise = useRef<Promise<void> | null>(null);
+  const previousPath = useRef<string | null>(null);
 
   const pathname = router.asPath.split(/[?#]/)[0] || "/";
 
@@ -18,6 +73,125 @@ export default function App({ Component, pageProps }: any) {
     normalizedPath === "/"
       ? `${SITE_URL}/`
       : `${SITE_URL}${normalizedPath}`;
+
+  useEffect(() => {
+    const initializeGtag = () => {
+      window.dataLayer = window.dataLayer || [];
+
+      window.gtag = function () {
+        window.dataLayer?.push(arguments);
+      };
+
+      window.gtag("consent", "default", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+      });
+
+      window.gtag("js", new Date());
+    };
+
+    initializeGtag();
+
+    const updateConsent = () => {
+      const allowed =
+        localStorage.getItem(CONSENT_KEY) === "accepted";
+
+      if (allowed) {
+        window.gtag?.("consent", "update", {
+          analytics_storage: "granted",
+        });
+
+        setAnalyticsAllowed(true);
+      } else {
+        window.gtag?.("consent", "update", {
+          analytics_storage: "denied",
+        });
+
+        window[`ga-disable-${GA_ID}`] = true;
+
+        deleteAnalyticsCookies();
+
+        setAnalyticsAllowed(false);
+      }
+    };
+
+    updateConsent();
+
+    window.addEventListener(
+      "venturas-consent-changed",
+      updateConsent
+    );
+
+    return () => {
+      window.removeEventListener(
+        "venturas-consent-changed",
+        updateConsent
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!analyticsAllowed) {
+      setAnalyticsReady(false);
+      return;
+    }
+
+    window[`ga-disable-${GA_ID}`] = false;
+
+    if (!scriptPromise.current) {
+      scriptPromise.current = new Promise<void>((resolve, reject) => {
+        const existingScript = document.querySelector(
+          `script[data-venturas-analytics="true"]`
+        );
+
+        if (existingScript) {
+          resolve();
+          return;
+        }
+
+        const script = document.createElement("script");
+
+        script.src =
+          `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+
+        script.async = true;
+        script.dataset.venturasAnalytics = "true";
+
+        script.onload = () => resolve();
+
+        script.onerror = () => {
+          scriptPromise.current = null;
+          reject(new Error("Google Analytics nu s-a încărcat."));
+        };
+
+        document.head.appendChild(script);
+      });
+    }
+
+    scriptPromise.current
+      .then(() => {
+        setAnalyticsReady(true);
+      })
+      .catch((error) => {
+        console.error(error);
+        setAnalyticsReady(false);
+      });
+  }, [analyticsAllowed]);
+
+  useEffect(() => {
+    if (!analyticsAllowed || !analyticsReady) return;
+
+    if (previousPath.current === router.asPath) return;
+
+    previousPath.current = router.asPath;
+
+    window.gtag?.("config", GA_ID, {
+      page_path: router.asPath,
+      send_page_view: true,
+    });
+  }, [analyticsAllowed, analyticsReady, router.asPath]);
 
   return (
     <>
@@ -53,6 +227,7 @@ export default function App({ Component, pageProps }: any) {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Venturas" />
+
         <meta
           property="og:url"
           content={currentUrl}
@@ -170,29 +345,9 @@ export default function App({ Component, pageProps }: any) {
         />
       </Head>
 
-      {/* Google Analytics */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-75MQ4JGXBP"
-        strategy="afterInteractive"
-      />
-
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-
-          function gtag() {
-            window.dataLayer.push(arguments);
-          }
-
-          gtag('js', new Date());
-
-          gtag('config', 'G-75MQ4JGXBP', {
-            page_path: window.location.pathname,
-          });
-        `}
-      </Script>
-
       <Component {...pageProps} />
+
+      <CookieConsent />
     </>
   );
 }
