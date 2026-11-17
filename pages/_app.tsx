@@ -1,8 +1,24 @@
+
 import "../styles/globals.css";
 import Head from "next/head";
 import Script from "next/script";
+import { useRouter } from "next/router";
+
+const SITE_URL = "https://venturas.ro";
 
 export default function App({ Component, pageProps }: any) {
+  const router = useRouter();
+
+  const pathname = router.asPath.split(/[?#]/)[0] || "/";
+
+  const normalizedPath =
+    pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+
+  const currentUrl =
+    normalizedPath === "/"
+      ? `${SITE_URL}/`
+      : `${SITE_URL}${normalizedPath}`;
+
   return (
     <>
       <Head>
@@ -19,10 +35,17 @@ export default function App({ Component, pageProps }: any) {
           content="lead generation, prospectare B2B, generare leaduri, outbound sales, programare întâlniri, business development"
         />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
 
-        {/* Canonical */}
-        <link rel="canonical" href="https://venturas.ro" />
+        {/* Canonical individual pentru fiecare pagină */}
+        <link
+          rel="canonical"
+          href={currentUrl}
+          key="canonical"
+        />
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
@@ -30,7 +53,11 @@ export default function App({ Component, pageProps }: any) {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Venturas" />
-        <meta property="og:url" content="https://venturas.ro" />
+        <meta
+          property="og:url"
+          content={currentUrl}
+          key="og:url"
+        />
 
         <meta
           property="og:title"
@@ -49,6 +76,7 @@ export default function App({ Component, pageProps }: any) {
 
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+
         <meta
           property="og:image:alt"
           content="Venturas — Transformăm prospectarea B2B în oportunități comerciale"
@@ -78,7 +106,10 @@ export default function App({ Component, pageProps }: any) {
         />
 
         {/* Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
 
         <link
           rel="preconnect"
@@ -112,7 +143,8 @@ export default function App({ Component, pageProps }: any) {
                 },
                 {
                   "@type": "ProfessionalService",
-                  "@id": "https://venturas.ro/#professional-service",
+                  "@id":
+                    "https://venturas.ro/#professional-service",
                   name: "Venturas",
                   url: "https://venturas.ro",
                   description:
