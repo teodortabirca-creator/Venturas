@@ -1,4 +1,4 @@
-import Head from "next/head";
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -20,60 +20,51 @@ import TrustedBy from "../components/TrustedBy";
 export default function DespreNoi() {
   const capabilities = [
     {
-      title: "Cercetare",
-      text: "Înțelegem piața, oferta și profilul companiilor care merită abordate.",
+      title: "Prospectare B2B",
+      text: "Identificăm companiile și persoanele de decizie relevante și construim campanii de abordare personalizate.",
       icon: Search,
     },
     {
-      title: "Acces la decidenți",
-      text: "Identificăm persoanele potrivite din cadrul organizațiilor vizate.",
+      title: "Dezvoltare comercială",
+      text: "Generăm întâlniri și, în funcție de nivelul de implicare ales, susținem oportunitățile comerciale până la semnare.",
       icon: Users,
     },
     {
-      title: "Outreach",
-      text: "Construim și administrăm comunicarea necesară pentru deschiderea conversațiilor.",
+      title: "Suport strategic și operațional",
+      text: "Contribuim la dezvoltarea strategiilor, competențelor și activităților comerciale ale companiei.",
       icon: Send,
     },
   ];
 
   const deliverables = [
     {
-      title: "Campanii outbound configurate",
-      icon: Settings2,
-    },
-    {
-      title: "Liste de prospecți relevanți",
+      title: "Baze de prospecți și decidenți relevanți",
       icon: UsersRound,
     },
     {
-      title: "Mesaje și secvențe personalizate",
+      title: "Campanii outbound personalizate",
       icon: MessageSquare,
     },
     {
-      title: "Monitorizare și optimizare",
+      title: "Întâlniri comerciale calificate",
+      icon: ListChecks,
+    },
+    {
+      title: "Susținerea procesului de vânzare",
       icon: TrendingUp,
     },
     {
-      title: "Rapoarte periodice",
-      icon: BarChart3,
+      title: "Strategie și infrastructură comercială",
+      icon: Settings2,
     },
     {
-      title: "Conversații comerciale calificate",
-      icon: ListChecks,
+      title: "Reprezentare și training de vânzări",
+      icon: BarChart3,
     },
   ];
 
   return (
     <>
-      <Head>
-        <title>Despre noi | Venturas</title>
-
-        <meta
-          name="description"
-          content="Află mai multe despre Venturas, agenția de prospectare B2B și outbound orientată spre conversații comerciale relevante."
-        />
-      </Head>
-
       <Navbar />
 
       <main className="bg-[#FFF4EE]">
@@ -86,14 +77,15 @@ export default function DespreNoi() {
               </p>
 
               <h1 className="mt-6 text-5xl font-extrabold leading-[1.02] tracking-[-0.055em] text-[#16221D] sm:text-6xl lg:text-7xl">
-                Construim procese de outbound clare, relevante și orientate
-                spre oportunități reale.
+                Susținem dezvoltarea comercială B2B prin prospectare,
+                strategie și implicare directă în procesul de vânzare.
               </h1>
 
               <p className="mt-8 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-                Venturas ajută companiile să identifice organizațiile
-                potrivite, să ajungă la decidenți relevanți și să deschidă
-                conversații comerciale cu potențial.
+                Venturas ajută companiile să identifice noi oportunități
+                comerciale, să ajungă la decidenții potriviți și să își
+                dezvolte activitatea de vânzări, prin servicii de Outreach
+                și Support adaptate obiectivelor fiecărui business.
               </p>
             </div>
           </div>
@@ -116,16 +108,17 @@ export default function DespreNoi() {
               <div className="border-l border-[#F05B25]/60 pl-7 sm:pl-10">
                 <div className="space-y-6 text-lg leading-8 text-slate-600">
                   <p>
-                    Multe companii au servicii solide și echipe capabile, dar
-                    nu au timpul, resursele sau procesul necesar pentru a
-                    construi constant un pipeline de oportunități noi.
+                    Multe companii au produse și servicii competitive, dar
+                    nu dispun întotdeauna de timpul, resursele sau expertiza
+                    comercială necesară pentru a identifica noi oportunități
+                    și pentru a le transforma în relații de business.
                   </p>
 
                   <p>
-                    Venturas preia etapele de cercetare, segmentare, prospectare
-                    și outreach personalizat, astfel încât echipele comerciale
-                    să se poată concentra pe conversații, ofertare și închiderea
-                    contractelor.
+                    Venturas completează aceste resurse prin prospectare,
+                    campanii outbound, susținerea procesului comercial,
+                    consultanță strategică, reprezentare la evenimente și
+                    instruirea echipelor de vânzări.
                   </p>
                 </div>
               </div>
@@ -174,12 +167,14 @@ export default function DespreNoi() {
                 </p>
 
                 <h2 className="mt-5 text-4xl font-extrabold leading-tight tracking-[-0.04em] sm:text-5xl">
-                  Livrabile clare. Vizibilitate asupra procesului.
+                  Servicii clare. Implicare adaptată obiectivelor tale.
                 </h2>
 
                 <p className="mt-6 max-w-xl text-lg leading-8 text-white/70">
-                  Primești un proces comercial structurat, adaptat proiectului
-                  și urmărit pe baza rezultatelor obținute.
+                  Fie că ai nevoie de o bază de prospecți, de campanii outbound
+                  administrate integral sau de suport pentru dezvoltarea
+                  activității comerciale, fiecare serviciu are obiective și
+                  livrabile clar definite.
                 </p>
               </div>
 
@@ -229,12 +224,13 @@ export default function DespreNoi() {
                 </p>
 
                 <h2 className="mt-4 text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-4xl">
-                  Vrei să construim împreună un proces de outbound mai bun?
+                  Vrei să dezvoltăm împreună activitatea comercială a
+                  companiei tale?
                 </h2>
 
                 <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
-                  Pornim de la piața ta, profilul clientului ideal și
-                  obiectivele comerciale pe care vrei să le atingi.
+                  Pornim de la obiectivele, provocările și resursele tale
+                  pentru a identifica direcția de colaborare potrivită.
                 </p>
               </div>
 

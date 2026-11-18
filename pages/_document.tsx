@@ -1,8 +1,23 @@
-import { Html, Head, Main, NextScript } from "next/document";
 
-export default function Document() {
+import {
+  Html,
+  Head,
+  Main,
+  NextScript,
+} from "next/document";
+
+import type { DocumentContext } from "next/document";
+import Document from "next/document";
+
+type Props = {
+  language: "ro" | "en";
+};
+
+export default function CustomDocument({
+  language,
+}: Props) {
   return (
-    <Html lang="en">
+    <Html lang={language}>
       <Head />
       <body className="antialiased">
         <Main />
@@ -11,3 +26,21 @@ export default function Document() {
     </Html>
   );
 }
+
+CustomDocument.getInitialProps = async (
+  ctx: DocumentContext
+) => {
+  const initialProps = await Document.getInitialProps(ctx);
+
+  const pathname = ctx.pathname || "/";
+
+  const language =
+    pathname === "/en" || pathname.startsWith("/en/")
+      ? "en"
+      : "ro";
+
+  return {
+    ...initialProps,
+    language,
+  };
+};

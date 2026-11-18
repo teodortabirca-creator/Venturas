@@ -1,5 +1,4 @@
 
-import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -84,14 +83,6 @@ const sections = [
 export default function PoliticaDeConfidentialitate() {
   return (
     <>
-      <Head>
-        <title>Politica de confidențialitate | Venturas</title>
-        <meta
-          name="description"
-          content="Află cum Venturas SRL colectează, utilizează și protejează datele personale prin intermediul website-ului venturas.ro."
-        />
-      </Head>
-
       <Navbar />
 
       <main className="bg-[#FFF9F5]">

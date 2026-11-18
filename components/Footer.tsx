@@ -1,14 +1,48 @@
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Footer() {
+  const router = useRouter();
   const currentYear = new Date().getFullYear();
+
+  const isEnglish =
+    router.pathname === "/en" ||
+    router.pathname.startsWith("/en/");
+
+  const homeHref = isEnglish ? "/en" : "/";
+  const servicesHref = isEnglish ? "/en#services" : "/#services";
+  const processHref = isEnglish ? "/en#process" : "/#process";
+  const contactHref = isEnglish ? "/en/contact" : "/contact";
+
+  const privacyHref = isEnglish
+  ? "/en/privacy-policy"
+  : "/politica-de-confidentialitate";
+  const termsHref = isEnglish
+  ? "/en/terms-and-conditions"
+  : "/termeni-si-conditii";
+
+  const content = isEnglish
+    ? {
+        services: "Services",
+        process: "Our Process",
+        contact: "Contact",
+        privacy: "Privacy Policy",
+        terms: "Terms & Conditions",
+      }
+    : {
+        services: "Servicii",
+        process: "Procesul nostru",
+        contact: "Contact",
+        privacy: "Politica de confidențialitate",
+        terms: "Termeni și condiții",
+      };
 
   return (
     <footer className="border-t border-slate-200 bg-white px-6 py-8 lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-[180px_1fr] md:items-center">
         <Link
-          href="/"
+          href={homeHref}
           className="text-xl font-extrabold tracking-[-0.04em] text-[#00563A] transition-colors hover:text-[#F05B25]"
         >
           Venturas
@@ -16,24 +50,24 @@ export default function Footer() {
 
         <div className="flex flex-col gap-3 text-sm font-medium text-slate-600 sm:flex-row sm:items-center sm:justify-end sm:gap-7">
           <Link
-            href="/#services"
+            href={servicesHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
-            Servicii
+            {content.services}
           </Link>
 
           <Link
-            href="/#process"
+            href={processHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
-            Procesul nostru
+            {content.process}
           </Link>
 
           <Link
-            href="/contact"
+            href={contactHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
-            Contact
+            {content.contact}
           </Link>
 
           <a
@@ -50,21 +84,21 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <Link
-            href="/politica-de-confidentialitate"
+            href={privacyHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
-            Politica de confidențialitate
+            {content.privacy}
           </Link>
 
           <Link
-            href="/termeni-si-conditii"
+            href={termsHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
-            Termeni și condiții
+            {content.terms}
           </Link>
 
           <Link
-            href="/"
+            href={homeHref}
             className="transition-colors duration-200 hover:text-[#F05B25]"
           >
             venturas.ro

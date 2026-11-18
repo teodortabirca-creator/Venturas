@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { BriefcaseBusiness, Mail, MapPin, Phone } from "lucide-react";
@@ -31,9 +30,13 @@ const contactDetails = [
 ];
 
 const discussionTopics = [
-  "Campanii outbound",
-  "Listă de prospecți",
-  "Proiect personalizat",
+  "Outreach – Prospectare",
+  "Outreach – Execuție",
+  "Outreach – Vânzări",
+  "Support – Strategie comercială",
+  "Support – Reprezentare la evenimente",
+  "Support – Training de vânzări",
+  "Nu sunt sigur încă",
 ];
 
 export default function Contact() {
@@ -87,15 +90,6 @@ export default function Contact() {
 
   return (
     <>
-      <Head>
-        <title>Contact | Venturas</title>
-
-        <meta
-          name="description"
-          content="Contactează Venturas pentru a discuta despre prospectare B2B, campanii outbound prin email și LinkedIn sau proiecte personalizate."
-        />
-      </Head>
-
       <Navbar />
 
       <main>
@@ -122,7 +116,7 @@ export default function Contact() {
               </p>
 
               <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-[-0.05em] text-[#16221D] sm:text-5xl lg:text-6xl">
-                Hai să discutăm despre piața pe care vrei să o deschizi.
+                Hai să discutăm despre obiectivele tale comerciale.
               </h1>
             </div>
           </div>
@@ -174,12 +168,12 @@ export default function Contact() {
 
                     <p className="mt-4 leading-7 text-slate-600">
                       Completează formularul, iar noi revenim pentru a stabili
-                      dacă și cum putem construi proiectul.
+                      cum putem construi proiectul.
                     </p>
                   </div>
 
                   <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-                                        <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-6 md:grid-cols-2">
                       <div>
                         <label
                           htmlFor="name"

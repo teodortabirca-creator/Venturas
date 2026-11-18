@@ -1,33 +1,62 @@
-import { Target, Mail, CalendarCheck } from "lucide-react";
 
-export default function WhyVenturas() {
-  const items = [
-    {
-      title: "Prospectare relevantă",
-      text: "Identificăm companiile și decidenții care se potrivesc profilului clientului tău ideal.",
-      icon: Target,
-    },
-    {
-      title: "Mesaje personalizate",
-      text: "Fiecare campanie este construită în jurul contextului, ofertei și pieței pe care activezi.",
-      icon: Mail,
-    },
-    {
-      title: "Conversații de calitate",
-      text: "Scopul nostru este să generăm oportunități comerciale relevante, unde există interes real.",
-      icon: CalendarCheck,
-    },
-  ];
+import { Target, MessageSquareText, Handshake } from "lucide-react";
+
+type WhyVenturasProps = {
+  lang?: "ro" | "en";
+};
+
+export default function WhyVenturas({
+  lang = "ro",
+}: WhyVenturasProps) {
+  const isEnglish = lang === "en";
+
+  const items = isEnglish
+    ? [
+        {
+          title: "Relevant Prospecting",
+          text: "We identify the companies and decision-makers that match your ideal customer profile.",
+          icon: Target,
+        },
+        {
+          title: "Tailored Approach",
+          text: "We adapt every campaign and service to your company's specific context, offering, and commercial objectives.",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Business Opportunities",
+          text: "We generate relevant business conversations and, depending on the service selected, support opportunities through to contract signing.",
+          icon: Handshake,
+        },
+      ]
+    : [
+        {
+          title: "Prospectare relevantă",
+          text: "Identificăm companiile și decidenții care se potrivesc profilului clientului tău ideal.",
+          icon: Target,
+        },
+        {
+          title: "Abordare personalizată",
+          text: "Adaptăm fiecare campanie și serviciu la contextul, oferta și obiectivele comerciale ale companiei tale.",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Oportunități comerciale",
+          text: "Generăm conversații relevante și, în funcție de serviciul ales, susținem dezvoltarea acestora până la semnarea contractelor.",
+          icon: Handshake,
+        },
+      ];
 
   return (
     <section className="bg-[#FFF7F2] py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#F05B25]">
-          Cum lucrăm
+          {isEnglish ? "How We Work" : "Cum lucrăm"}
         </p>
 
         <h2 className="mt-4 max-w-2xl text-5xl font-bold text-[#1F0B05]">
-          Prospectarea funcționează atunci când relevanța vine înaintea volumului.
+          {isEnglish
+            ? "Business development starts with the right people and companies."
+            : "Dezvoltarea comercială începe cu oamenii și companiile potrivite."}
         </h2>
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">

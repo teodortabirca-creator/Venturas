@@ -1,14 +1,122 @@
 
 import "../styles/globals.css";
+
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "next/app";
+
 import CookieConsent from "../components/CookieConsent";
 
 const SITE_URL = "https://venturas.ro";
 const GA_ID = "G-75MQ4JGXBP";
 const CONSENT_KEY = "venturas_cookie_consent";
+
+type Language = "ro" | "en";
+
+type SeoEntry = {
+  title: string;
+  description: string;
+  language: Language;
+  alternatePath: string;
+};
+
+const seoPages: Record<string, SeoEntry> = {
+  "/": {
+    title: "Venturas – Dezvoltare Comercială B2B & Outreach",
+    description:
+      "Dezvoltăm oportunități comerciale B2B prin prospectare, campanii outbound, suport în vânzări și strategie comercială.",
+    language: "ro",
+    alternatePath: "/en",
+  },
+
+  "/procesul-nostru": {
+    title: "Procesul nostru | Prospectare B2B – Venturas",
+    description:
+      "Descoperă procesul Venturas: definirea profilului clientului ideal, identificarea prospecților, campanii outbound personalizate și programarea întâlnirilor B2B.",
+    language: "ro",
+    alternatePath: "",
+  },
+
+  "/despre-noi": {
+    title: "Despre Venturas – Partenerul Tău Comercial B2B",
+    description:
+      "Descoperă cum Venturas ajută companiile să identifice oportunități, să contacteze decidenți și să își dezvolte activitatea comercială.",
+    language: "ro",
+    alternatePath: "/en/about",
+  },
+  "/servicii": {
+    title: "Servicii Outreach & Support B2B – Venturas",
+    description:
+      "Descoperă serviciile Venturas de prospectare B2B, campanii outbound, suport comercial, strategie, reprezentare și training de vânzări.",
+    language: "ro",
+    alternatePath: "/en/services",
+  },
+  "/contact": {
+    title: "Contact Venturas – Dezvoltare Comercială B2B",
+    description:
+      "Contactează Venturas pentru a discuta obiectivele tale comerciale și serviciile de Outreach sau Support potrivite companiei tale.",
+    language: "ro",
+    alternatePath: "/en/contact",
+  },
+  "/politica-de-confidentialitate": {
+    title: "Politica de confidențialitate | Venturas",
+    description:
+      "Află cum Venturas colectează, prelucrează, protejează și păstrează datele personale transmise prin website.",
+    language: "ro",
+    alternatePath: "/en/privacy-policy",
+  },
+  "/termeni-si-conditii": {
+    title: "Termeni și condiții | Venturas",
+    description:
+      "Consultă termenii de utilizare a website-ului Venturas și informațiile generale despre serviciile oferite.",
+    language: "ro",
+    alternatePath: "/en/terms-and-conditions",
+  },
+
+  "/en": {
+    title: "Venturas | B2B Business Development & Outreach",
+    description:
+      "Grow your business with B2B prospecting, outbound campaigns, sales support, and commercial strategy services tailored to your goals.",
+    language: "en",
+    alternatePath: "/",
+  },
+  "/en/about": {
+    title: "About Venturas | Your B2B Growth Partner",
+    description:
+      "Discover how Venturas helps companies generate opportunities, reach decision-makers, and strengthen their commercial activities.",
+    language: "en",
+    alternatePath: "/despre-noi",
+  },
+  "/en/services": {
+    title: "B2B Outreach & Sales Support Services | Venturas",
+    description:
+      "Explore B2B prospecting, outbound campaigns, sales support, event representation, commercial strategy, and sales training.",
+    language: "en",
+    alternatePath: "/servicii",
+  },
+  "/en/contact": {
+    title: "Contact Venturas | B2B Business Development",
+    description:
+      "Get in touch with Venturas to discuss your commercial objectives and explore the right Outreach or Support services.",
+    language: "en",
+    alternatePath: "/contact",
+  },
+  "/en/privacy-policy": {
+    title: "Privacy Policy | Venturas",
+    description:
+      "Learn how Venturas collects, processes, protects, and retains personal data submitted through its website.",
+    language: "en",
+    alternatePath: "/politica-de-confidentialitate",
+  },
+  "/en/terms-and-conditions": {
+    title: "Terms & Conditions | Venturas",
+    description:
+      "Read the terms governing the use of the Venturas website and information about the services we provide.",
+    language: "en",
+    alternatePath: "/termeni-si-conditii",
+  },
+};
 
 declare global {
   interface Window {
@@ -16,6 +124,10 @@ declare global {
     gtag?: (...args: any[]) => void;
     [key: string]: any;
   }
+}
+
+function getAbsoluteUrl(path: string) {
+  return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;
 }
 
 function deleteAnalyticsCookies() {
@@ -41,16 +153,12 @@ function deleteAnalyticsCookies() {
     "venturas.ro",
   ];
 
-  const paths = ["/"];
-
   cookieNames.forEach((name) => {
     domains.forEach((domain) => {
-      paths.forEach((path) => {
-        document.cookie =
-          `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; ` +
-          `path=${path}; SameSite=Lax` +
-          (domain ? `; domain=${domain}` : "");
-      });
+      document.cookie =
+        `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; ` +
+        "path=/; SameSite=Lax" +
+        (domain ? `; domain=${domain}` : "");
     });
   });
 }
@@ -69,10 +177,39 @@ export default function App({ Component, pageProps }: AppProps) {
   const normalizedPath =
     pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
 
-  const currentUrl =
-    normalizedPath === "/"
-      ? `${SITE_URL}/`
-      : `${SITE_URL}${normalizedPath}`;
+  const seo = seoPages[normalizedPath];
+
+  const language: Language =
+    seo?.language ??
+    (normalizedPath === "/en" || normalizedPath.startsWith("/en/")
+      ? "en"
+      : "ro");
+
+  const title =
+    seo?.title ??
+    (language === "en"
+      ? "Venturas | B2B Business Development"
+      : "Venturas | Dezvoltare Comercială B2B");
+
+  const description =
+    seo?.description ??
+    (language === "en"
+      ? "B2B outreach, sales support, and commercial strategy services."
+      : "Servicii de prospectare B2B, outbound și dezvoltare comercială.");
+
+  const currentUrl = getAbsoluteUrl(normalizedPath);
+
+  const romanianPath =
+    language === "ro"
+      ? normalizedPath
+      : seo?.alternatePath;
+
+  const englishPath =
+    language === "en"
+      ? normalizedPath
+      : seo?.alternatePath;
+
+  const ogImage = `${SITE_URL}/og-image.png`;
 
   useEffect(() => {
     const initializeGtag = () => {
@@ -143,7 +280,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!scriptPromise.current) {
       scriptPromise.current = new Promise<void>((resolve, reject) => {
         const existingScript = document.querySelector(
-          `script[data-venturas-analytics="true"]`
+          'script[data-venturas-analytics="true"]'
         );
 
         if (existingScript) {
@@ -163,7 +300,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
         script.onerror = () => {
           scriptPromise.current = null;
-          reject(new Error("Google Analytics nu s-a încărcat."));
+          reject(
+            new Error("Google Analytics could not be loaded.")
+          );
         };
 
         document.head.appendChild(script);
@@ -193,94 +332,187 @@ export default function App({ Component, pageProps }: AppProps) {
     });
   }, [analyticsAllowed, analyticsReady, router.asPath]);
 
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: "Venturas",
+        url: SITE_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: ogImage,
+        },
+        description:
+          "Venturas provides B2B prospecting, outreach, business development, and commercial support services.",
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE_URL}/#professional-service`,
+        name: "Venturas",
+        url: SITE_URL,
+        description:
+          "B2B prospecting, outbound campaigns, sales support, commercial strategy, event representation, and sales training.",
+        areaServed: {
+          "@type": "Country",
+          name: "Romania",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: "Venturas",
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+        inLanguage: ["ro-RO", "en"],
+      },
+    ],
+  };
+
   return (
     <>
       <Head>
-        {/* Basic SEO */}
-        <title>Venturas | Prospectare B2B și Lead Generation</title>
+        <title key="site-title">{title}</title>
 
         <meta
           name="description"
-          content="Transformăm prospectarea B2B în oportunități comerciale prin lead generation, outreach și programarea întâlnirilor cu decidenți."
-        />
-
-        <meta
-          name="keywords"
-          content="lead generation, prospectare B2B, generare leaduri, outbound sales, programare întâlniri, business development"
+          content={description}
+          key="site-description"
         />
 
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1"
+          key="viewport"
         />
 
-        {/* Canonical individual pentru fiecare pagină */}
         <link
           rel="canonical"
           href={currentUrl}
           key="canonical"
         />
 
-        {/* Favicon */}
+        {romanianPath && englishPath && (
+          <>
+            <link
+              rel="alternate"
+              hrefLang="ro"
+              href={getAbsoluteUrl(romanianPath)}
+              key="hreflang-ro"
+            />
+
+            <link
+              rel="alternate"
+              hrefLang="en"
+              href={getAbsoluteUrl(englishPath)}
+              key="hreflang-en"
+            />
+
+            <link
+              rel="alternate"
+              hrefLang="x-default"
+              href={getAbsoluteUrl(romanianPath)}
+              key="hreflang-default"
+            />
+          </>
+        )}
+
         <link rel="icon" href="/favicon.ico" />
 
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Venturas" />
+        <meta
+          property="og:site_name"
+          content="Venturas"
+        />
+
+        <meta
+          property="og:locale"
+          content={language === "en" ? "en_US" : "ro_RO"}
+          key="og-locale"
+        />
 
         <meta
           property="og:url"
           content={currentUrl}
-          key="og:url"
+          key="og-url"
         />
 
         <meta
           property="og:title"
-          content="Venturas | Prospectare B2B și Lead Generation"
+          content={title}
+          key="og-title"
         />
 
         <meta
           property="og:description"
-          content="Transformăm prospectarea B2B în oportunități comerciale prin lead generation, outreach și programarea întâlnirilor cu decidenți."
+          content={description}
+          key="og-description"
         />
 
         <meta
           property="og:image"
-          content="https://venturas.ro/og-image.png"
+          content={ogImage}
         />
 
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:width"
+          content="1200"
+        />
+
+        <meta
+          property="og:image:height"
+          content="630"
+        />
 
         <meta
           property="og:image:alt"
-          content="Venturas — Transformăm prospectarea B2B în oportunități comerciale"
+          content={
+            language === "en"
+              ? "Venturas — B2B Business Development & Outreach"
+              : "Venturas — Dezvoltare Comercială B2B"
+          }
+          key="og-image-alt"
         />
 
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
 
         <meta
           name="twitter:title"
-          content="Venturas | Prospectare B2B și Lead Generation"
+          content={title}
+          key="twitter-title"
         />
 
         <meta
           name="twitter:description"
-          content="Transformăm prospectarea B2B în oportunități comerciale prin lead generation, outreach și programarea întâlnirilor cu decidenți."
+          content={description}
+          key="twitter-description"
         />
 
         <meta
           name="twitter:image"
-          content="https://venturas.ro/og-image.png"
+          content={ogImage}
         />
 
         <meta
           name="twitter:image:alt"
-          content="Venturas — Transformăm prospectarea B2B în oportunități comerciale"
+          content={
+            language === "en"
+              ? "Venturas — B2B Business Development & Outreach"
+              : "Venturas — Dezvoltare Comercială B2B"
+          }
+          key="twitter-image-alt"
         />
 
-        {/* Fonts */}
         <link
           rel="preconnect"
           href="https://fonts.googleapis.com"
@@ -297,50 +529,10 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
 
-        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "Organization",
-                  "@id": "https://venturas.ro/#organization",
-                  name: "Venturas",
-                  url: "https://venturas.ro",
-                  logo: {
-                    "@type": "ImageObject",
-                    url: "https://venturas.ro/og-image.png",
-                  },
-                  description:
-                    "Venturas ajută companiile să genereze oportunități comerciale prin prospectare B2B, lead generation și appointment setting.",
-                },
-                {
-                  "@type": "ProfessionalService",
-                  "@id":
-                    "https://venturas.ro/#professional-service",
-                  name: "Venturas",
-                  url: "https://venturas.ro",
-                  description:
-                    "Servicii de prospectare B2B, lead generation, outreach și programarea întâlnirilor cu decidenți.",
-                  areaServed: {
-                    "@type": "Country",
-                    name: "România",
-                  },
-                },
-                {
-                  "@type": "WebSite",
-                  "@id": "https://venturas.ro/#website",
-                  url: "https://venturas.ro",
-                  name: "Venturas",
-                  publisher: {
-                    "@id": "https://venturas.ro/#organization",
-                  },
-                  inLanguage: "ro-RO",
-                },
-              ],
-            }),
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
       </Head>

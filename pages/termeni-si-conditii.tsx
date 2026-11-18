@@ -1,5 +1,4 @@
 
-import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -24,9 +23,11 @@ const sections = [
   {
     title: "3. Serviciile prezentate",
     paragraphs: [
-      "Venturas oferă servicii destinate mediului de afaceri, precum identificarea și cercetarea prospecților, construirea listelor de contacte, campanii de prospectare B2B prin email și LinkedIn, programarea întâlnirilor comerciale și raportarea activităților desfășurate.",
+      "Venturas oferă servicii destinate mediului de afaceri (B2B), organizate în două categorii principale:",
+      "Outreach, incluzând cercetarea și identificarea prospecților B2B, construirea bazelor de date cu contacte, campanii outbound prin email și LinkedIn, apeluri telefonice de prospectare (cold calling), programarea întâlnirilor comerciale și activități de follow-up comercial.",
+      "Support, incluzând dezvoltarea strategiilor comerciale, consultanță pentru optimizarea proceselor de vânzare, reprezentarea companiilor la evenimente de profil și training pentru echipele de vânzări.",
       "Descrierile serviciilor publicate pe website au caracter informativ și nu reprezintă, prin ele însele, o ofertă contractuală fermă.",
-      "Conținutul, livrabilele, prețurile, termenele și responsabilitățile aferente unei colaborări sunt stabilite separat, prin propuneri comerciale acceptate și/sau contracte încheiate între părți.",
+      "Conținutul specific al serviciilor, livrabilele, prețurile, termenele și responsabilitățile aferente unei colaborări sunt stabilite separat, prin propuneri comerciale acceptate și/sau contracte încheiate între părți.",
     ],
   },
   {
@@ -96,14 +97,6 @@ const sections = [
 export default function TermeniSiConditii() {
   return (
     <>
-      <Head>
-        <title>Termeni și condiții | Venturas</title>
-        <meta
-          name="description"
-          content="Consultă termenii și condițiile de utilizare a website-ului Venturas, informații despre serviciile B2B, proprietatea intelectuală și legislația aplicabilă."
-        />
-      </Head>
-
       <Navbar />
 
       <main className="bg-[#FFF9F5]">

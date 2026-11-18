@@ -1,36 +1,105 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const navigationItems = [
-  {
-    label: "Despre noi",
-    href: "/despre-noi",
+const navigationItems = {
+  ro: [
+    {
+      label: "Despre noi",
+      href: "/despre-noi",
+    },
+    {
+      label: "Servicii",
+      href: "/servicii",
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+    },
+  ],
+  en: [
+    {
+      label: "About Us",
+      href: "/en/about",
+    },
+    {
+      label: "Services",
+      href: "/en/services",
+    },
+    {
+      label: "Contact",
+      href: "/en/contact",
+    },
+  ],
+};
+
+const translations = {
+  ro: {
+    navigationLabel: "Navigare principală",
+    mobileNavigationLabel: "Navigare mobilă",
+    homeLabel: "Venturas — Pagina principală",
+    openMenu: "Deschide meniul",
+    closeMenu: "Închide meniul",
+    cta: "Programează o discuție",
+    languageLabel: "Schimbă limba",
   },
-  {
-    label: "Servicii",
-    href: "/servicii",
+  en: {
+    navigationLabel: "Main Navigation",
+    mobileNavigationLabel: "Mobile Navigation",
+    homeLabel: "Venturas — Home",
+    openMenu: "Open Menu",
+    closeMenu: "Close Menu",
+    cta: "Book a Consultation",
+    languageLabel: "Change Language",
   },
-  {
-    label: "Contact",
-    href: "/contact",
-  },
-];
+};
+
+const languageRoutes: Record<string, string> = {
+  "/": "/en",
+  "/despre-noi": "/en/about",
+  "/servicii": "/en/services",
+  "/contact": "/en/contact",
+  "/politica-de-confidentialitate": "/en/privacy-policy",
+  "/termeni-si-conditii": "/en/terms-and-conditions",
+
+  "/en": "/",
+  "/en/about": "/despre-noi",
+  "/en/services": "/servicii",
+  "/en/contact": "/contact",
+  "/en/privacy-policy": "/politica-de-confidentialitate",
+  "/en/terms-and-conditions": "/termeni-si-conditii",
+};
 
 export default function Navbar() {
   const router = useRouter();
 
+  const isEnglish =
+    router.pathname === "/en" ||
+    router.pathname.startsWith("/en/");
+
+  const language = isEnglish ? "en" : "ro";
+
+  const content = translations[language];
+  const items = navigationItems[language];
+
+  const homeHref = isEnglish ? "/en" : "/";
+  const contactHref = isEnglish ? "/en/contact" : "/contact";
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [shouldHideDesktopCta, setShouldHideDesktopCta] = useState(false);
+  const [shouldHideDesktopCta, setShouldHideDesktopCta] =
+    useState(false);
 
   useEffect(() => {
     const updateNavbar = () => {
       setHasScrolled(window.scrollY > 8);
 
       const ctaElements = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-hide-navbar-cta]")
+        document.querySelectorAll<HTMLElement>(
+          "[data-hide-navbar-cta]"
+        )
       );
 
       const navbarHeight = 80;
@@ -38,17 +107,22 @@ export default function Navbar() {
       const isAnyCtaVisible = ctaElements.some((element) => {
         const rect = element.getBoundingClientRect();
 
-        return rect.bottom > navbarHeight && rect.top < window.innerHeight;
+        return (
+          rect.bottom > navbarHeight &&
+          rect.top < window.innerHeight
+        );
       });
 
       setShouldHideDesktopCta(isAnyCtaVisible);
     };
 
-    const animationFrame = window.requestAnimationFrame(updateNavbar);
+    const animationFrame =
+      window.requestAnimationFrame(updateNavbar);
 
     window.addEventListener("scroll", updateNavbar, {
       passive: true,
     });
+
     window.addEventListener("resize", updateNavbar);
 
     return () => {
@@ -70,12 +144,29 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  const isActiveLink = (href: string) => router.pathname === href;
+  const isActiveLink = (href: string) =>
+    router.pathname === href;
 
- const shouldShowButton =
-  router.pathname !== "/contact" &&
-  !shouldHideDesktopCta &&
-  (router.pathname !== "/" || hasScrolled);
+  const isHomePage = router.pathname === homeHref;
+  const isContactPage = router.pathname === contactHref;
+
+  const shouldShowButton =
+    !isContactPage &&
+    !shouldHideDesktopCta &&
+    (!isHomePage || hasScrolled);
+
+  const getLanguageHref = (targetLanguage: "ro" | "en") => {
+    if (targetLanguage === language) {
+      return router.asPath;
+    }
+
+    const currentPath = router.asPath.split(/[?#]/)[0];
+
+    return (
+      languageRoutes[currentPath] ||
+      (targetLanguage === "en" ? "/en" : "/")
+    );
+  };
 
   return (
     <header
@@ -86,9 +177,10 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center px-8 lg:px-16">
+        {/* Logo */}
         <Link
-          href="/"
-          aria-label="Venturas — Pagina principală"
+          href={homeHref}
+          aria-label={content.homeLabel}
           className="group inline-flex shrink-0 items-center gap-3"
         >
           <span className="relative block h-9 w-9 shrink-0">
@@ -107,18 +199,20 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="ml-auto hidden items-center lg:flex">
           <nav
-            aria-label="Navigare principală"
+            aria-label={content.navigationLabel}
             className="flex items-center gap-9"
           >
-            {navigationItems.map((item) => {
+            {items.map((item) => {
               const isActive = isActiveLink(item.href);
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive ? "page" : undefined}
                   className={`relative whitespace-nowrap py-2 text-sm font-semibold transition-colors duration-200 ${
                     isActive
                       ? "text-[#00563A]"
@@ -130,7 +224,9 @@ export default function Navbar() {
                   <span
                     aria-hidden="true"
                     className={`absolute inset-x-0 -bottom-1 mx-auto h-px rounded-full bg-[#F05B25]/80 transition-all duration-200 ${
-                      isActive ? "w-full opacity-100" : "w-0 opacity-0"
+                      isActive
+                        ? "w-full opacity-100"
+                        : "w-0 opacity-0"
                     }`}
                   />
                 </Link>
@@ -138,6 +234,7 @@ export default function Navbar() {
             })}
           </nav>
 
+          {/* Desktop CTA */}
           <div
             className={`transition-all duration-300 ${
               shouldShowButton
@@ -146,52 +243,107 @@ export default function Navbar() {
             }`}
           >
             <Link
-              href="/contact"
+              href={contactHref}
               aria-hidden={!shouldShowButton}
               tabIndex={shouldShowButton ? 0 : -1}
               className={`inline-flex w-full whitespace-nowrap items-center justify-center rounded-xl bg-[#F05B25] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(240,91,37,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D94F1C] hover:shadow-[0_16px_36px_rgba(240,91,37,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F05B25] focus-visible:ring-offset-2 ${
-                shouldShowButton ? "translate-y-0" : "-translate-y-2"
+                shouldShowButton
+                  ? "translate-y-0"
+                  : "-translate-y-2"
               }`}
             >
-              Programează o discuție
+              {content.cta}
+            </Link>
+          </div>
+
+          {/* Desktop Language Switcher */}
+          <div
+            aria-label={content.languageLabel}
+            className="ml-5 flex shrink-0 items-center gap-1 border-l border-slate-200 pl-5"
+          >
+            <Link
+              href={getLanguageHref("ro")}
+              hrefLang="ro"
+              aria-label="Română"
+              aria-current={!isEnglish ? "page" : undefined}
+              className={`rounded-md px-1.5 py-2 text-xs font-bold transition-colors ${
+                !isEnglish
+                  ? "text-[#00563A]"
+                  : "text-slate-400 hover:text-[#F05B25]"
+              }`}
+            >
+              RO
+            </Link>
+
+            <span
+              aria-hidden="true"
+              className="text-xs text-slate-300"
+            >
+              /
+            </span>
+
+            <Link
+              href={getLanguageHref("en")}
+              hrefLang="en"
+              aria-label="English"
+              aria-current={isEnglish ? "page" : undefined}
+              className={`rounded-md px-1.5 py-2 text-xs font-bold transition-colors ${
+                isEnglish
+                  ? "text-[#00563A]"
+                  : "text-slate-400 hover:text-[#F05B25]"
+              }`}
+            >
+              EN
             </Link>
           </div>
         </div>
 
+        {/* Mobile Menu Button */}
         <button
           type="button"
-          aria-label={isMenuOpen ? "Închide meniul" : "Deschide meniul"}
+          aria-label={
+            isMenuOpen ? content.closeMenu : content.openMenu
+          }
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
-          onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
+          onClick={() =>
+            setIsMenuOpen((currentValue) => !currentValue)
+          }
           className="relative ml-auto flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#16221D] transition-colors hover:border-[#F05B25]/40 hover:text-[#F05B25] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F05B25] focus-visible:ring-offset-2 lg:hidden"
         >
           <span className="sr-only">
-            {isMenuOpen ? "Închide meniul" : "Deschide meniul"}
+            {isMenuOpen ? content.closeMenu : content.openMenu}
           </span>
 
           <span className="relative block h-5 w-5">
             <span
               className={`absolute left-0 top-1 block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${
-                isMenuOpen ? "translate-y-1.5 rotate-45" : ""
+                isMenuOpen
+                  ? "translate-y-1.5 rotate-45"
+                  : ""
               }`}
             />
 
             <span
               className={`absolute left-0 top-2.5 block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${
-                isMenuOpen ? "opacity-0" : "opacity-100"
+                isMenuOpen
+                  ? "opacity-0"
+                  : "opacity-100"
               }`}
             />
 
             <span
               className={`absolute left-0 top-4 block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ${
-                isMenuOpen ? "-translate-y-1.5 -rotate-45" : ""
+                isMenuOpen
+                  ? "-translate-y-1.5 -rotate-45"
+                  : ""
               }`}
             />
           </span>
         </button>
       </div>
 
+      {/* Mobile Navigation */}
       <div
         id="mobile-navigation"
         className={`overflow-hidden border-t border-slate-100 bg-white transition-all duration-300 lg:hidden ${
@@ -201,16 +353,17 @@ export default function Navbar() {
         }`}
       >
         <nav
-          aria-label="Navigare mobilă"
+          aria-label={content.mobileNavigationLabel}
           className="mx-auto flex max-w-7xl flex-col px-6 py-5"
         >
-          {navigationItems.map((item) => {
+          {items.map((item) => {
             const isActive = isActiveLink(item.href);
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={isActive ? "page" : undefined}
                 className={`border-b border-slate-100 py-4 text-base font-semibold transition-colors ${
                   isActive
                     ? "text-[#00563A]"
@@ -222,14 +375,46 @@ export default function Navbar() {
             );
           })}
 
-          {router.pathname !== "/contact" && (
+          {!isContactPage && (
             <Link
-              href="/contact"
+              href={contactHref}
               className="mt-5 inline-flex items-center justify-center rounded-xl bg-[#F05B25] px-6 py-4 text-base font-semibold text-white shadow-[0_12px_30px_rgba(240,91,37,0.2)] transition-colors hover:bg-[#D94F1C]"
             >
-              Programează o discuție
+              {content.cta}
             </Link>
           )}
+
+          {/* Mobile Language Switcher */}
+          <div
+            aria-label={content.languageLabel}
+            className="mt-6 flex items-center justify-center gap-4 border-t border-slate-100 pt-5"
+          >
+            <Link
+              href={getLanguageHref("ro")}
+              hrefLang="ro"
+              aria-current={!isEnglish ? "page" : undefined}
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition-colors ${
+                !isEnglish
+                  ? "bg-[#EAF4F0] text-[#00563A]"
+                  : "text-slate-500 hover:text-[#F05B25]"
+              }`}
+            >
+              RO
+            </Link>
+
+            <Link
+              href={getLanguageHref("en")}
+              hrefLang="en"
+              aria-current={isEnglish ? "page" : undefined}
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition-colors ${
+                isEnglish
+                  ? "bg-[#EAF4F0] text-[#00563A]"
+                  : "text-slate-500 hover:text-[#F05B25]"
+              }`}
+            >
+              EN
+            </Link>
+          </div>
         </nav>
       </div>
     </header>

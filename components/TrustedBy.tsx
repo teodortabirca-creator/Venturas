@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const companies = [
   {
@@ -41,13 +42,19 @@ const companies = [
 ];
 
 export default function TrustedBy() {
+  const router = useRouter();
+
+  const isEnglish =
+    router.pathname === "/en" ||
+    router.pathname.startsWith("/en/");
+
   const repeatedCompanies = [...companies, ...companies];
 
   return (
     <section className="overflow-hidden border-t border-slate-200 bg-white px-6 py-20 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <h2 className="mb-14 text-center text-4xl font-extrabold tracking-[-0.04em] text-[#1F0B05] sm:text-5xl">
-          Au avut încredere în noi
+          {isEnglish ? "Trusted By" : "Au avut încredere în noi"}
         </h2>
 
         <div className="logo-viewport overflow-hidden">

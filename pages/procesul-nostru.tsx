@@ -1,5 +1,4 @@
 
-import Head from "next/head";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -11,15 +10,6 @@ import TrustedBy from "../components/TrustedBy";
 export default function ProcesulNostru() {
   return (
     <>
-      <Head>
-        <title>Procesul nostru | Venturas</title>
-
-        <meta
-          name="description"
-          content="Descoperă procesul Venturas: definirea profilului clientului ideal, identificarea prospecților, campanii outbound personalizate și programarea întâlnirilor B2B."
-        />
-      </Head>
-
       <Navbar />
 
       <main>
