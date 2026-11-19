@@ -1,6 +1,8 @@
 
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 
 const companies = [
   {
@@ -41,14 +43,95 @@ const companies = [
   },
 ];
 
+const repeatedCompanies = [...companies, ...companies, ...companies];
+
 export default function TrustedBy() {
   const router = useRouter();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const dragRef = useRef({
+    active: false,
+    lastX: 0,
+  });
 
   const isEnglish =
     router.pathname === "/en" ||
     router.pathname.startsWith("/en/");
 
-  const repeatedCompanies = [...companies, ...companies];
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+
+    if (!viewport || !track) return;
+
+    const getSegmentWidth = () => track.scrollWidth / 3;
+
+    const initialize = () => {
+      const segmentWidth = getSegmentWidth();
+
+      if (segmentWidth > 0) {
+        viewport.scrollLeft = segmentWidth;
+      }
+    };
+
+    const normalize = () => {
+      const segmentWidth = getSegmentWidth();
+      if (!segmentWidth) return;
+
+      if (viewport.scrollLeft < segmentWidth * 0.5) {
+        viewport.scrollLeft += segmentWidth;
+      } else if (viewport.scrollLeft >= segmentWidth * 1.5) {
+        viewport.scrollLeft -= segmentWidth;
+      }
+    };
+
+    initialize();
+
+    viewport.addEventListener("scroll", normalize, { passive: true });
+
+    const resizeObserver = new ResizeObserver(initialize);
+    resizeObserver.observe(viewport);
+
+    return () => {
+      viewport.removeEventListener("scroll", normalize);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    dragRef.current.active = true;
+    dragRef.current.lastX = event.clientX;
+
+    viewport.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!dragRef.current.active) return;
+
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const delta = event.clientX - dragRef.current.lastX;
+    dragRef.current.lastX = event.clientX;
+
+    viewport.scrollLeft -= delta;
+  }
+
+  function handlePointerUp(event: ReactPointerEvent<HTMLDivElement>) {
+    dragRef.current.active = false;
+
+    const viewport = viewportRef.current;
+
+    if (viewport?.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+  }
 
   return (
     <section className="overflow-hidden border-t border-slate-200 bg-white px-6 py-20 lg:px-10">
@@ -57,8 +140,26 @@ export default function TrustedBy() {
           {isEnglish ? "Trusted By" : "Au avut încredere în noi"}
         </h2>
 
-        <div className="logo-viewport overflow-hidden">
-          <div className="logo-track flex w-max gap-5">
+        <div
+          ref={viewportRef}
+          className="logo-viewport cursor-grab overflow-x-auto overflow-y-hidden active:cursor-grabbing"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+            touchAction: "pan-x",
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          aria-label={
+            isEnglish
+              ? "Client and partner logos. Swipe horizontally to explore."
+              : "Logo-urile clienților și partenerilor. Glisează orizontal pentru a le explora."
+          }
+        >
+          <div ref={trackRef} className="flex w-max gap-5">
             {repeatedCompanies.map((company, index) => (
               <div
                 key={`${company.name}-${index}`}
@@ -71,6 +172,7 @@ export default function TrustedBy() {
                       alt={company.name}
                       width={254}
                       height={47}
+                      draggable={false}
                       className="block h-auto w-full max-w-[240px] object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100"
                     />
                   </div>
@@ -80,6 +182,7 @@ export default function TrustedBy() {
                     alt={company.name}
                     width={200}
                     height={80}
+                    draggable={false}
                     style={{
                       transform: `translateY(${company.offsetY}px) scale(${company.scale})`,
                     }}
@@ -93,26 +196,17 @@ export default function TrustedBy() {
       </div>
 
       <style jsx>{`
-        .logo-track {
-          animation: slideLogos 36s linear infinite;
+        .logo-viewport::-webkit-scrollbar {
+          display: none;
         }
 
-        .logo-viewport:hover .logo-track {
-          animation-play-state: paused;
+        .logo-viewport {
+          overscroll-behavior-x: contain;
         }
 
-        @keyframes slideLogos {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .logo-track {
-            animation: none;
+        @media (pointer: coarse) {
+          .logo-viewport {
+            cursor: auto;
           }
         }
       `}</style>
