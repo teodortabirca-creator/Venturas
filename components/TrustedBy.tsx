@@ -343,7 +343,7 @@ export default function TrustedBy() {
                         width={254}
                         height={47}
                         draggable={false}
-                        className="block h-auto w-full max-w-[240px] object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                        className="block h-auto w-full max-w-[240px] object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 active:grayscale-0 active:opacity-100"
                       />
                     </div>
                   ) : (
@@ -356,7 +356,7 @@ export default function TrustedBy() {
                       style={{
                         transform: `translateY(${company.offsetY}px) scale(${company.scale})`,
                       }}
-                      className="max-h-16 max-w-[75%] w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                      className="max-h-16 max-w-[75%] w-auto object-contain grayscale opacity-80 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100 active:grayscale-0 active:opacity-100"
                     />
                   )}
                 </div>
