@@ -72,6 +72,33 @@ const languageRoutes: Record<string, string> = {
   "/en/terms-and-conditions": "/termeni-si-conditii",
 };
 
+function RomanianFlag() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 16" width="24" height="16" className="shrink-0 rounded-[2px] shadow-sm">
+      <rect width="8" height="16" fill="#002B7F" />
+      <rect x="8" width="8" height="16" fill="#FCD116" />
+      <rect x="16" width="8" height="16" fill="#CE1126" />
+    </svg>
+  );
+}
+
+function BritishFlag() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 30 20" width="24" height="16" className="shrink-0 rounded-[2px] shadow-sm">
+      <defs>
+        <clipPath id="venturas-uk-flag-clip"><rect width="30" height="20" /></clipPath>
+      </defs>
+      <g clipPath="url(#venturas-uk-flag-clip)">
+        <rect width="30" height="20" fill="#012169" />
+        <path d="M0 0 30 20 M30 0 0 20" stroke="#FFF" strokeWidth="5" />
+        <path d="M0 0 30 20 M30 0 0 20" stroke="#C8102E" strokeWidth="2" />
+        <path d="M15 0 V20 M0 10 H30" stroke="#FFF" strokeWidth="7" />
+        <path d="M15 0 V20 M0 10 H30" stroke="#C8102E" strokeWidth="3.5" />
+      </g>
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const router = useRouter();
 
@@ -272,7 +299,7 @@ export default function Navbar() {
                   : "text-slate-400 hover:text-[#F05B25]"
               }`}
             >
-              RO
+              <span className="inline-flex items-center gap-1.5"><RomanianFlag /> RO</span>
             </Link>
 
             <span
@@ -293,7 +320,7 @@ export default function Navbar() {
                   : "text-slate-400 hover:text-[#F05B25]"
               }`}
             >
-              EN
+              <span className="inline-flex items-center gap-1.5"><BritishFlag /> EN</span>
             </Link>
           </div>
         </div>
@@ -399,7 +426,7 @@ export default function Navbar() {
                   : "text-slate-500 hover:text-[#F05B25]"
               }`}
             >
-              RO
+              <span className="inline-flex items-center gap-1.5"><RomanianFlag /> RO</span>
             </Link>
 
             <Link
@@ -412,7 +439,7 @@ export default function Navbar() {
                   : "text-slate-500 hover:text-[#F05B25]"
               }`}
             >
-              EN
+              <span className="inline-flex items-center gap-1.5"><BritishFlag /> EN</span>
             </Link>
           </div>
         </nav>
