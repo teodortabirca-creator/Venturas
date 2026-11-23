@@ -299,7 +299,7 @@ export default function Navbar() {
                   : "text-slate-400 hover:text-[#F05B25]"
               }`}
             >
-              <span className="inline-flex items-center gap-1.5"><RomanianFlag /> RO</span>
+              <RomanianFlag />
             </Link>
 
             <span
@@ -320,7 +320,7 @@ export default function Navbar() {
                   : "text-slate-400 hover:text-[#F05B25]"
               }`}
             >
-              <span className="inline-flex items-center gap-1.5"><BritishFlag /> EN</span>
+              <BritishFlag />
             </Link>
           </div>
         </div>
@@ -426,7 +426,7 @@ export default function Navbar() {
                   : "text-slate-500 hover:text-[#F05B25]"
               }`}
             >
-              <span className="inline-flex items-center gap-1.5"><RomanianFlag /> RO</span>
+              <RomanianFlag />
             </Link>
 
             <Link
@@ -439,7 +439,7 @@ export default function Navbar() {
                   : "text-slate-500 hover:text-[#F05B25]"
               }`}
             >
-              <span className="inline-flex items-center gap-1.5"><BritishFlag /> EN</span>
+              <BritishFlag />
             </Link>
           </div>
         </nav>
