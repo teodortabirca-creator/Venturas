@@ -32,7 +32,7 @@ const services = [
     ],
   },
   {
-    title: "Vânzări",
+    title: "Vânzare",
     price: "€1.000",
     billing: "lunar",
     description:
@@ -47,19 +47,6 @@ const services = [
 ];
 
 const supportServices = [
-  {
-    title: "Strategie comercială",
-    price: "Preț personalizat",
-    billing: "",
-    description:
-      "Proiectăm infrastructura comercială necesară unui proces de prospectare și vânzare eficient, adaptată obiectivelor și specificului companiei.",
-    features: [
-      "Analiză comercială și de piață",
-      "Strategie și poziționare comercială",
-      "Procese și infrastructură de vânzări",
-      "Materiale și active comerciale",
-    ],
-  },
   {
     title: "Reprezentare evenimente",
     price: "€100",
@@ -87,6 +74,19 @@ const supportServices = [
       "Ziua 3 – Evaluare: verificarea competențelor, feedback și ajustări",
       "Manual de training cu metodologiile, exercițiile și informațiile predate",
       "Întâlnire de verificare la două luni după finalizarea trainingului",
+    ],
+  },
+  {
+    title: "Strategie comercială",
+    price: "Preț personalizat",
+    billing: "",
+    description:
+      "Proiectăm infrastructura comercială necesară unui proces de prospectare și vânzare eficient, adaptată obiectivelor și specificului companiei.",
+    features: [
+      "Analiză comercială și de piață",
+      "Strategie și poziționare comercială",
+      "Procese și infrastructură de vânzări",
+      "Materiale și active comerciale",
     ],
   },
 ];
@@ -230,12 +230,12 @@ export default function Servicii() {
           </div>
         </section>
 
-        {/* Support */}
+        {/* Suport */}
         <section className="bg-[#FFF4EE] px-6 py-20 lg:px-10 lg:py-28">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
               <h2 className="text-4xl font-extrabold tracking-[-0.04em] text-[#16221D] sm:text-5xl">
-                Support
+                Suport
               </h2>
 
               <p className="mt-6 text-lg leading-8 text-slate-600">
