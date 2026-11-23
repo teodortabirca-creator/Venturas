@@ -48,19 +48,6 @@ const services = [
 
 const supportServices = [
   {
-    title: "Commercial Strategy",
-    price: "Custom Pricing",
-    billing: "",
-    description:
-      "We design the commercial infrastructure needed to build effective prospecting and sales processes, tailored to your company's objectives and business model.",
-    features: [
-      "Commercial and market analysis",
-      "Commercial strategy and positioning",
-      "Sales processes and infrastructure",
-      "Sales materials and commercial assets",
-    ],
-  },
-  {
     title: "Event Representation",
     price: "€100",
     billing: "/ Day + 5% of contracts signed at the booth",
@@ -87,6 +74,19 @@ const supportServices = [
       "Day 3 – Evaluation: Assessing skills, providing feedback, and identifying improvements",
       "A training manual covering the methodologies, exercises, and materials presented",
       "A follow-up evaluation meeting two months after the training",
+    ],
+  },
+  {
+    title: "Commercial Strategy",
+    price: "Custom Pricing",
+    billing: "",
+    description:
+      "We design the commercial infrastructure needed to build effective prospecting and sales processes, tailored to your company's objectives and business model.",
+    features: [
+      "Commercial and market analysis",
+      "Commercial strategy and positioning",
+      "Sales processes and infrastructure",
+      "Sales materials and commercial assets",
     ],
   },
 ];
