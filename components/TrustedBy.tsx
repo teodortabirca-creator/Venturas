@@ -41,6 +41,12 @@ const companies = [
     scale: 1,
     offsetY: 0,
   },
+  {
+    name: "Sostenia",
+    logo: "/logos/logo-sostenia.webp",
+    scale: 1,
+    offsetY: 0,
+  },
 ];
 
 const repeatedCompanies = [
